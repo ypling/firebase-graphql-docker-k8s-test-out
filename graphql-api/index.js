@@ -2,7 +2,7 @@ const express = require("express")
 const {createHandler} = require("graphql-http/lib/use/express")
 const {buildSchema} = require("graphql")
 const {ruruHTML} = require("ruru/server")
-const loggingMiddleware =require("./middlewares/authenticate.js")
+// const loggingMiddleware =require("./middlewares/authenticate.js")
 
 // Construct a schema, using GraphQL schema language
 const schema = buildSchema(`
@@ -19,7 +19,7 @@ const root = {
 }
 
 const app = express()
-app.use(loggingMiddleware)
+// app.use(loggingMiddleware)
 // Create and use the GraphQL handler.
 app.all(
     "/graphql",

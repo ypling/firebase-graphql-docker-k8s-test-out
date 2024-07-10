@@ -1,26 +1,28 @@
 # Nginx
 
-k8s_yaml(['nginx/k8s/nginx.yaml', 'nginx/k8s/nginx-config.yaml'])
-k8s_resource(objects=['nginx-config:ConfigMap:default'], new_name='nginx-config')
+k8s_yaml('nginx/k8s/nginx.yaml')
+k8s_resource(objects=['nginx-config:ConfigMap:default'], new_name='nginx-config', labels='Nginx')
+k8s_resource('nginx-deployment', resource_deps=['nginx-config'], labels='Nginx')
+
 
 # UI
 # check if UI repo has been checked out
-USE_UI = os.path.exists('./graphql-api/k8s')
+USE_UI = os.path.exists('./ui/k8s')
 if USE_UI:
-docker_build(
-    'architect-design-poc-ui',
-    context='ui',
-    dockerfile='./ui/Dockerfile',
-    build_args={'node_env': 'development'},
-    entrypoint='npm run dev',
-    only=['src', 'webpack.config.js', 'package.json', 'package-lock.json'],
-    live_update=[
-        sync('ui/src', '/usr/app/src'),
-    ]
-)
+    docker_build(
+        'architect-design-poc-ui',
+        context='ui',
+        dockerfile='./ui/Dockerfile',
+        build_args={'node_env': 'development'},
+        entrypoint='npm run dev',
+        only=['src', 'webpack.config.js', 'package.json', 'package-lock.json'],
+        live_update=[
+            sync('ui/src', '/usr/app/src'),
+        ]
+    )
 
-k8s_yaml('ui/k8s/ui.yaml')
-k8s_resource('ui-deployment', new_name='ui')
+    k8s_yaml('ui/k8s/ui.yaml')
+    k8s_resource('ui-deployment', new_name='ui', labels='Frontend')
 
 # GraphQL
 # check if graphql repo checked out
@@ -38,8 +40,8 @@ if USE_GRAPHQL:
         ]
     )
     k8s_yaml('graphql-api/k8s/graphql.yaml')
-    k8s_resource('graphql-deployment', new_name='graphql')
+    k8s_resource('graphql-deployment', new_name='graphql', labels='Backend')
 
 # PostgreSQL DB
 k8s_yaml('postgresql-db/k8s/postgresql.yaml')
-k8s_resource('postgresql-deployment', new_name='postgresql-db')
+k8s_resource('postgresql-deployment', new_name='postgresql-db', labels='DB')

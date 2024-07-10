@@ -27,11 +27,6 @@ module.exports = {
         }),
     ],
     devServer: {
-        proxy: [
-            {
-                context: ['/graphql'],
-                target: 'http://localhost:30080',
-            },
-        ]
+        historyApiFallback: true
     }
 }
