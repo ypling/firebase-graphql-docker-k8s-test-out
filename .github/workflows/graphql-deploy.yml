@@ -32,11 +32,11 @@ jobs:
           registry: gcr.io
           username: _json_key
           password: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
-      # - 
-      #   name: 'Set up Cloud SDK'
-      #   uses: 'google-github-actions/setup-gcloud@v2'
-      #   with:
-      #     version: '>= 363.0.0'
+      - 
+        name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          project_id: ${{ secrets.GCP_PROJECT }}
       - 
         name: Build and push Docker image
         uses: docker/build-push-action@v6
