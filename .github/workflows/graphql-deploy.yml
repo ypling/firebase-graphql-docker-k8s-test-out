@@ -27,7 +27,7 @@ jobs:
         name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
-          registry: gcr.io
+          registry: us-west2-docker.pkg.dev
           username: _json_key
           password: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
       - 
@@ -42,7 +42,7 @@ jobs:
           context: graphql-api/.
           push: true
           # tags: ghcr.io/${{ github.repository }}:latest
-          tags: gcr.io/${{ secrets.GCP_PROJECT }}/firebase-graphql-docker-k8s-test-out:latest
+          tags: us-west2-docker.pkg.dev/fir-architect-test-out/architect-try-gar/firebase-graphql-docker-k8s-test-out:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
       # - 
