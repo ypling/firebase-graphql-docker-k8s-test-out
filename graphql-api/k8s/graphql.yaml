@@ -15,7 +15,7 @@ spec:
       serviceAccountName: ghcr-sa
       containers:
         - name: firebase-graphql-docker-k8s
-          image: gcr.io/ypling/firebase-graphql-docker-k8s-test-out:latest
+          image: ghcr.io/ypling/firebase-graphql-docker-k8s-test-out:latest
           ports:
             - containerPort: 3000
 ---
