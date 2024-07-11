@@ -55,4 +55,4 @@ jobs:
       - 
         name: Deploy to GKE
         run: |
-          kubectl set image deployment/your-deployment your-container=ghcr.io/${{ github.repository }}:latest
+          kubectl apply -f graphql-api/k8s/graphql.yaml
