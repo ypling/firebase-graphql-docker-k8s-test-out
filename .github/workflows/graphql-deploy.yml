@@ -24,11 +24,14 @@ jobs:
         with:
           credentials_json: '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}'
       - 
+        name: Show access token
+        run: echo "Access Token: ${{ steps.auth.outputs.access_token }}"
+      - 
         name: Login to Google Container Registry
         uses: docker/login-action@v3
         with:
           registry: gcr.io
-          username: github-service-account@fir-architect-test-out.iam.gserviceaccount.com
+          username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
       - 
         name: Build and push Docker image
