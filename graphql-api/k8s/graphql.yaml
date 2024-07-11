@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: firebase-graphql-docker-k8s
-          image: gcr.io/ypling/firebase-graphql-docker-k8s-test-out:latest
+          image: gcr.io/firebase-architect-test-out/firebase-graphql-docker-k8s-test-out:latest
           ports:
             - containerPort: 3000
 ---
