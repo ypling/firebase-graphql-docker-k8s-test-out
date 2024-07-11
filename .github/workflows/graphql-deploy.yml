@@ -28,7 +28,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: gcr.io
-          username: _json_key
+          username: github-service-account@fir-architect-test-out.iam.gserviceaccount.com
           password: ${{ steps.auth.outputs.access_token }}
       - 
         name: Build and push Docker image
