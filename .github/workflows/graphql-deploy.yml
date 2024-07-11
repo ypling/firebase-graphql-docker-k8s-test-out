@@ -49,7 +49,10 @@ jobs:
         with:
           cluster_name: ${{ secrets.GKE_CLUSTER }}
           location: ${{ secrets.GKE_ZONE }}
-          
+      - 
+        name: Check and Delete Existing GHCR Secret
+        run: |
+          kubectl get secret ghcr-secret && kubectl delete secret ghcr-secret || echo "Secret does not exist"
       - 
         name: Create Secret for GHCR
         run: |
