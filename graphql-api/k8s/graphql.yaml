@@ -12,6 +12,7 @@ spec:
       labels:
         app: graphql
     spec:
+      serviceAccountName: ghcr-sa
       containers:
         - name: firebase-graphql-docker-k8s
           image: gcr.io/ypling/firebase-graphql-docker-k8s-test-out:latest
