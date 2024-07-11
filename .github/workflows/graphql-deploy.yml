@@ -30,7 +30,7 @@ jobs:
         with:
           context: graphql-api/.
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: gcr.io/${{ github.repository }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - 
