@@ -23,18 +23,21 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         with:
           credentials_json: '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}'
-      - 
-        name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: us-west2-docker.pkg.dev
-          username: _json_key
-          password: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+      # - 
+      #   name: Login to Google Artifacts Registry
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: us-west2-docker.pkg.dev
+      #     username: _json_key
+      #     password: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
       - 
         name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
         with:
           project_id: ${{ secrets.GCP_PROJECT }}
+      -
+        name: Configure Docker to use the Google Artifact Registry
+        run: gcloud auth configure-docker us-west2-docker.pkg.dev # Change the region accordingly
       - 
         name: Build and push Docker image
         uses: docker/build-push-action@v6
