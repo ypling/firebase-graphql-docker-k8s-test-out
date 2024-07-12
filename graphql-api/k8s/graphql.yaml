@@ -24,12 +24,12 @@ kind: Service
 metadata:
   name: graphql-service
   annotations:
-    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "graphql-neg"}}}'
+    cloud.google.com/neg: '{"exposed_ports": {"80":{}}}'
 spec:
   type: ClusterIP
   selector:
     app: graphql
   ports:
     - protocol: TCP
-      port: 3000
+      port: 80
       targetPort: 3000
