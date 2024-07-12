@@ -45,31 +45,16 @@ jobs:
           context: graphql-api/.
           push: true
           # tags: ghcr.io/${{ github.repository }}:latest
-          tags: us-west2-docker.pkg.dev/fir-architect-test-out/architect-try-gar/firebase-graphql-docker-k8s-test-out:latest
+          tags: us-west2-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/architect-try-gar/firebase-graphql-docker-k8s-test-out:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      # - 
-      #   name: Get GKE credentials
-      #   uses: 'google-github-actions/get-gke-credentials@v2'
-      #   with:
-      #     cluster_name: ${{ secrets.GKE_CLUSTER }}
-      #     location: ${{ secrets.GKE_ZONE }}
-      # - 
-      #   name: Check and Delete Existing GHCR Secret
-      #   run: |
-      #     kubectl get secret ghcr-secret && kubectl delete secret ghcr-secret || echo "Secret does not exist"
-      # - 
-      #   name: Create Secret for GHCR
-      #   run: |
-      #     kubectl create secret docker-registry ghcr-secret \
-      #       --docker-server=ghcr.io \
-      #       --docker-username=${{ github.actor }} \
-      #       --docker-password=${{ secrets.GITHUB_TOKEN }} \
-      #       --docker-email=leonard.li.pub@gmail.com
-      # - 
-      #   name: Apply Service Account
-      #   run: kubectl apply -f k8s/serviceaccount.yaml
-      # - 
-      #   name: Deploy to GKE
-      #   run: |
-      #     kubectl apply -f graphql-api/k8s/graphql.yaml
+      - 
+        name: Get GKE credentials
+        uses: 'google-github-actions/get-gke-credentials@v2'
+        with:
+          cluster_name: ${{ secrets.GKE_CLUSTER }}
+          location: ${{ secrets.GKE_ZONE }}
+      - 
+        name: Deploy to GKE
+        run: |
+          kubectl apply -f graphql-api/k8s/graphql.yaml
