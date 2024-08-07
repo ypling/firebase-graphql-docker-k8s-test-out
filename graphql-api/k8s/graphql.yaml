@@ -12,7 +12,6 @@ spec:
       labels:
         app: graphql
     spec:
-      serviceAccountName: ghcr-sa
       containers:
         - name: firebase-graphql-docker-k8s
           image: us-west2-docker.pkg.dev/fir-architect-test-out/architect-try-gar/firebase-graphql-docker-k8s-test-out:latest

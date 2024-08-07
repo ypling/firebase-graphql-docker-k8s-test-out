@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sqlalchemy-migration-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: sqlalchemy
+          image: architect-design-poc-sqlalchemy
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+      restartPolicy: Never
+  backoffLimit: 4

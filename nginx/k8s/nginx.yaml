@@ -16,12 +16,12 @@ data:
         }
     
         upstream graphql {
-          server graphql-service:3000;
+          server graphql-service:80;
         }
     
         server {
             listen 80;
-            location /graphql {
+            location ~ ^/(graphql|api)(/|$) {
                 proxy_pass http://graphql;
                 proxy_set_header Host $host;
                 proxy_set_header X-Real-IP $remote_addr;

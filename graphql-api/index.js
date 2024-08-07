@@ -2,6 +2,7 @@ const express = require("express")
 const {createHandler} = require("graphql-http/lib/use/express")
 const {buildSchema} = require("graphql")
 const {ruruHTML} = require("ruru/server")
+const proxy = require('express-http-proxy');
 // const loggingMiddleware =require("./middlewares/authenticate.js")
 
 // Construct a schema, using GraphQL schema language
@@ -19,6 +20,8 @@ const root = {
 }
 
 const app = express()
+
+app.use('/api', proxy('http://postgrest-service:3000'));
 // app.use(loggingMiddleware)
 // Create and use the GraphQL handler.
 app.all(

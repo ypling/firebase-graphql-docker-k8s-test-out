@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgresql-deployment
+  name: postgrest-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgresql
+      app: postgrest
   template:
     metadata:
       labels:
-        app: postgresql
+        app: postgrest
     spec:
       containers:
-        - name: tutorial
-          image: postgres:15.7
+        - name: postgrest
+          image: postgrest/postgrest
           ports:
-            - containerPort: 5432
+            - containerPort: 3000
           envFrom:
             - configMapRef:
                 name: postgres-config
@@ -24,12 +24,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgresql-service
+  name: postgrest-service
 spec:
   type: ClusterIP
   selector:
-    app: postgresql
+    app: postgrest
   ports:
     - protocol: TCP
-      port: 5432
-      targetPort: 5432
+      port: 3000
+      targetPort: 3000
