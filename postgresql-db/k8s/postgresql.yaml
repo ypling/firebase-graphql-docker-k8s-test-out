@@ -13,7 +13,7 @@ spec:
         app: postgresql
     spec:
       containers:
-        - name: tutorial
+        - name: postgres
           image: postgres:15.7
           ports:
             - containerPort: 5432
