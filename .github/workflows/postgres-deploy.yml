@@ -37,4 +37,4 @@ jobs:
       - 
         name: Deploy to GKE
         run: |
-          kubectl apply -f postgresql-db/k8s/postgresql.yaml
+          kubectl apply -f postgresql-db/k8s/gke-psql.yaml
