@@ -20,20 +20,18 @@ spec:
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.33.1
           env:
-            - name: INSTANCE_CONNECTION_NAME
+            - name: DB_HOST
               valueFrom:
                 secretKeyRef:
-                  name: cloudsql-instance-connection
-                  key: INSTANCE_CONNECTION_NAME
-          command: [ "/bin/sh", "-c" ]
-          args:
-            - "/cloud_sql_proxy --dir=/cloudsql --instances=$${INSTANCE_CONNECTION_NAME} --ip_address_types=PRIVATE"
-          securityContext:
-            runAsUser: 2
-            allowPrivilegeEscalation: false
-          volumeMounts:
-            - name: cloudsql
-              mountPath: /cloudsql
-      volumes:
-        - name: cloudsql
-          emptyDir: { }
+                  name: cloudsql-db-credentials
+                  key: DB_HOST
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cloudsql-db-credentials
+                  key: DB_PASSWORD
