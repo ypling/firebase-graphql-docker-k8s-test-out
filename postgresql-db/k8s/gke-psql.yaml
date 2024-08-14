@@ -17,8 +17,6 @@ spec:
           image: postgres:latest
           command: [ "sleep" ]
           args: [ "infinity" ]
-        - name: cloudsql-proxy
-          image: gcr.io/cloudsql-docker/gce-proxy:1.33.1
           env:
             - name: DB_HOST
               valueFrom:
