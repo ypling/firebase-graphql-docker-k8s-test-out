@@ -51,7 +51,7 @@ k8s_yaml('postgresql-db/k8s/postgresql.yaml')
 k8s_resource('postgresql-deployment', new_name='postgresql-db', labels='DB' )
 k8s_yaml('postgresql-db/k8s/sqlalchemy.yaml')
 docker_build(
-    'architect-design-poc-sqlalchemy',
+    'us-west2-docker.pkg.dev/fir-architect-test-out/architect-try-gar/sqlalchemy-migration-seed',
     context='postgresql-db/app',
     dockerfile='./postgresql-db/app/Dockerfile'
 )

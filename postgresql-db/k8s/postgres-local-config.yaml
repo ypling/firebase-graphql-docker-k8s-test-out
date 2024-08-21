@@ -3,8 +3,16 @@ kind: ConfigMap
 metadata:
   name: postgres-config
 data:
-  PGRST_DB_URI: "postgres://authenticator:mysecretpassword@postgresql-service:5432/postgres"
+  PGRST_DB_USERNAME: "authenticator"
   PGRST_DB_SCHEMA: "api"
   PGRST_DB_ANON_ROLE: "web_anon"
-  DATABASE_URL: "postgresql://postgres:password@postgresql-service:5432/postgres"
-  POSTGRES_PASSWORD: "password"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+data:
+  DB_ROOT_PASSWORD: "cGFzc3dvcmQ=" # password
+  DB_USERNAME: "cG9zdGdyZXM=" # postgres
+  DB_HOST: "cG9zdGdyZXNxbC1zZXJ2aWNl" # postgresql-service
+  PGRST_DB_PASSWORD: "bXlzZWNyZXRwYXNzd29yZA==" # mysecretpassword

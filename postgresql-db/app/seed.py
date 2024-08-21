@@ -1,6 +1,13 @@
+import os
 from alembic import op
 import sqlalchemy as sa
 from models import Todo, SessionLocal
+
+# Reading the POSTGREST config from environment variable
+pgrst_db_username = os.getenv('PGRST_DB_USERNAME', 'authenticator')
+pgrst_db_schema = os.getenv('PGRST_DB_SCHEMA', 'api')
+pgrst_db_anon_role = os.getenv('PGRST_DB_ANON_ROLE', 'web_anon')
+pgrst_db_password = os.getenv('PGRST_DB_PASSWORD')
 
 # Open a session to the database
 session = SessionLocal()

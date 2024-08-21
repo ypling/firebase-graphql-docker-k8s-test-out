@@ -7,8 +7,10 @@ spec:
     spec:
       containers:
         - name: sqlalchemy
-          image: architect-design-poc-sqlalchemy
+          image: us-west2-docker.pkg.dev/fir-architect-test-out/architect-try-gar/sqlalchemy-migration-seed:latest
           envFrom:
+            - secretRef:
+                name: postgres-secret
             - configMapRef:
                 name: postgres-config
       restartPolicy: Never

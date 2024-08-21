@@ -1,11 +1,11 @@
 # models/todos.py
 from sqlalchemy import Column, Integer, Boolean, Text, TIMESTAMP
 from sqlalchemy.sql import func
-from .db import Base, SCHEMA
+from .db import Base, schema
 
 class Todo(Base):
     __tablename__ = 'todos'
-    __table_args__ = {'schema': SCHEMA}
+    __table_args__ = {'schema': schema}
 
     id = Column(Integer, primary_key=True, index=True)
     done = Column(Boolean, nullable=False, default=False)

@@ -20,6 +20,11 @@ spec:
           envFrom:
             - configMapRef:
                 name: postgres-config
+            - secretRef:
+                name: postgres-secret
+          env:
+            - name: PGRST_DB_URI
+              value: "postgres://$(PGRST_DB_USERNAME):$(PGRST_DB_PASSWORD)@$(DB_HOST):5432/postgres"
 ---
 apiVersion: v1
 kind: Service

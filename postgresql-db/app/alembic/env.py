@@ -27,7 +27,13 @@ target_metadata = None
 # ... etc.
 
 # Reading the database URL from environment variable
-database_url = os.getenv('DATABASE_URL')
+db_root_password = os.getenv('DB_ROOT_PASSWORD')  # default values can be provided if needed
+db_username = os.getenv('DB_USERNAME')
+db_host = os.getenv('DB_HOST')
+
+# Construct the PostgreSQL connection URL
+database_url = f"postgresql://{db_username}:{db_root_password}@{db_host}:5432/postgres"
+
 if database_url:
     config.set_main_option('sqlalchemy.url', database_url)
 

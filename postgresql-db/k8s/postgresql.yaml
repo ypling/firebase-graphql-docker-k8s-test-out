@@ -17,9 +17,12 @@ spec:
           image: postgres:15.7
           ports:
             - containerPort: 5432
-          envFrom:
-            - configMapRef:
-                name: postgres-config
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_ROOT_PASSWORD
 ---
 apiVersion: v1
 kind: Service
