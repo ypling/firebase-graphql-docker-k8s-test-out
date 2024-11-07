@@ -1,7 +1,37 @@
+# Function to create a ConfigMap dynamically
+def create_configmap(name, base_path, override_path):
+    config_data = {}
+
+    # Load base config
+    base = read_yaml_stream(base_path)
+
+    # Load override config, if it exists
+    if os.path.exists(override_path):
+        config_override = read_yaml_stream(override_path)[0]
+        secret_override = read_yaml_stream(override_path)[1]
+        base[0]['data'].update(config_override['data'])
+        base[1]['data'].update(secret_override['data'])
+    k8s_yaml(encode_yaml_stream(base))
+
+# Define paths for your base and override configs
+base_config_path = "config/config.yaml"
+override_config_path = "config/config-override.yaml"
+
+# Create the ConfigMap
+create_configmap("architect-test-out-config", base_config_path, override_config_path)
+
+# Watch for changes in the config files and reload
+watch_file(base_config_path)
+watch_file(override_config_path)
+k8s_resource(objects=['architect-test-out-config:ConfigMap:default'], new_name='config', labels='Tilt')
+k8s_resource(objects=['architect-test-out-secret:Secret:default'], new_name='secret', labels='Tilt')
+
+
 # Nginx
+k8s_yaml('nginx/k8s/nginx-conf-template.yaml')
 k8s_yaml('nginx/k8s/nginx.yaml')
-k8s_resource(objects=['nginx-config:ConfigMap:default'], new_name='nginx-config', labels='Nginx')
-k8s_resource('nginx-deployment', resource_deps=['nginx-config'], labels='Nginx')
+k8s_resource(objects=['nginx-config-template:ConfigMap:default'], new_name='nginx-config-template', labels='Nginx')
+k8s_resource('nginx-deployment', resource_deps=['nginx-config-template', 'config'], labels='Nginx')
 
 # UI
 # check if UI repo has been checked out
@@ -42,9 +72,7 @@ if USE_GRAPHQL:
 
 # PostgREST API
 k8s_yaml('postgresql-db/k8s/postgrest.yaml')
-k8s_yaml('postgresql-db/k8s/postgres-local-config.yaml')
-k8s_resource(objects=['postgres-config:ConfigMap:default'], new_name='postgres-config', labels='DB')
-k8s_resource('postgrest-deployment', new_name='postgrest-api', resource_deps=['postgres-config'], labels='DB')
+k8s_resource('postgrest-deployment', new_name='postgrest-api', resource_deps=['config'], labels='DB')
 
 # PostgreSQL DB
 k8s_yaml('postgresql-db/k8s/postgresql.yaml')
@@ -55,5 +83,4 @@ docker_build(
     context='postgresql-db/app',
     dockerfile='./postgresql-db/app/Dockerfile'
 )
-k8s_resource('sqlalchemy-migration-job', new_name='sqlalchemy', labels='DB', resource_deps=['postgresql-db', 'postgres-config'])
-
+k8s_resource('sqlalchemy-migration-job', new_name='sqlalchemy', labels='DB', resource_deps=['postgresql-db', 'config'])

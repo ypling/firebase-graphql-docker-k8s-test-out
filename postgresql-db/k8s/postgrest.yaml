@@ -17,12 +17,32 @@ spec:
           image: postgrest/postgrest
           ports:
             - containerPort: 3000
-          envFrom:
-            - configMapRef:
-                name: postgres-config
-            - secretRef:
-                name: postgres-secret
           env:
+            - name: PGRST_DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: PGRST_DB_USERNAME
+                  name: architect-test-out-config
+            - name: PGRST_DB_ANON_ROLE
+              valueFrom:
+                configMapKeyRef:
+                  key: PGRST_DB_ANON_ROLE
+                  name: architect-test-out-config
+            - name: PGRST_DB_SCHEMA
+              valueFrom:
+                configMapKeyRef:
+                  key: PGRST_DB_SCHEMA
+                  name: architect-test-out-config
+            - name: PGRST_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PGRST_DB_PASSWORD
+                  name: architect-test-out-secret
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: DB_HOST
+                  name: architect-test-out-secret
             - name: PGRST_DB_URI
               value: "postgres://$(PGRST_DB_USERNAME):$(PGRST_DB_PASSWORD)@$(DB_HOST):5432/postgres"
 ---

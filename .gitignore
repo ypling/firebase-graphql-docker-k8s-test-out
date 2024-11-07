@@ -133,3 +133,4 @@ dist
 graphql-api/secrets
 
 .venv
+config/config-override.yaml

@@ -21,7 +21,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: architect-test-out-secret
                   key: DB_ROOT_PASSWORD
 ---
 apiVersion: v1

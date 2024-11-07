@@ -8,10 +8,41 @@ spec:
       containers:
         - name: sqlalchemy
           image: us-west2-docker.pkg.dev/fir-architect-test-out/architect-try-gar/sqlalchemy-migration-seed:latest
-          envFrom:
-            - secretRef:
-                name: postgres-secret
-            - configMapRef:
-                name: postgres-config
+          env:
+            - name: PGRST_DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: PGRST_DB_USERNAME
+                  name: architect-test-out-config
+            - name: PGRST_DB_SCHEMA
+              valueFrom:
+                configMapKeyRef:
+                  key: PGRST_DB_SCHEMA
+                  name: architect-test-out-config
+            - name: PGRST_DB_ANON_ROLE
+              valueFrom:
+                configMapKeyRef:
+                  key: PGRST_DB_ANON_ROLE
+                  name: architect-test-out-config
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: DB_USERNAME
+                  name: architect-test-out-secret
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  key: DB_HOST
+                  name: architect-test-out-secret
+            - name: DB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DB_ROOT_PASSWORD
+                  name: architect-test-out-secret
+            - name: PGRST_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PGRST_DB_PASSWORD
+                  name: architect-test-out-secret
       restartPolicy: Never
   backoffLimit: 4
